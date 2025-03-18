@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis 16 Tenses</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+    <h2>Kuis 16 Tenses</h2>
+    <div id="quiz"></div>
+    <div id="result" class="mt-3"></div>
+    <script>
+        const questions = [];
+        
+        const tenses = {
+            "Simple Present": {
+                positif: "S + V1 (s/es)",
+                negatif: "S + do/does + not + V1",
+                tanya: "Do/Does + S + V1?",
+                arti: "Menunjukkan kebiasaan atau fakta umum"
+            },
+            "Present Continuous": {
+                positif: "S + is/am/are + V-ing",
+                negatif: "S + is/am/are + not + V-ing",
+                tanya: "Is/Am/Are + S + V-ing?",
+                arti: "Menunjukkan tindakan yang sedang berlangsung"
+            },
+            "Present Perfect": {
+                positif: "S + has/have + V3",
+                negatif: "S + has/have + not + V3",
+                tanya: "Has/Have + S + V3?",
+                arti: "Menunjukkan tindakan yang telah selesai tetapi masih relevan"
+            },
+            "Present Perfect Continuous": {
+                positif: "S + has/have + been + V-ing",
+                negatif: "S + has/have + not + been + V-ing",
+                tanya: "Has/Have + S + been + V-ing?",
+                arti: "Menunjukkan tindakan yang dimulai di masa lalu dan masih berlangsung"
+            },
+            "Simple Past": {
+                positif: "S + V2",
+                negatif: "S + did + not + V1",
+                tanya: "Did + S + V1?",
+                arti: "Menunjukkan tindakan yang terjadi di masa lalu"
+            },
+            "Past Continuous": {
+                positif: "S + was/were + V-ing",
+                negatif: "S + was/were + not + V-ing",
+                tanya: "Was/Were + S + V-ing?",
+                arti: "Menunjukkan tindakan yang sedang berlangsung di masa lalu"
+            },
+            "Past Perfect": {
+                positif: "S + had + V3",
+                negatif: "S + had + not + V3",
+                tanya: "Had + S + V3?",
+                arti: "Menunjukkan tindakan yang selesai sebelum tindakan lain di masa lalu"
+            },
+            "Past Perfect Continuous": {
+                positif: "S + had + been + V-ing",
+                negatif: "S + had + not + been + V-ing",
+                tanya: "Had + S + been + V-ing?",
+                arti: "Menunjukkan tindakan yang telah berlangsung sebelum suatu waktu di masa lalu"
+            },
+            "Simple Future": {
+                positif: "S + will + V1",
+                negatif: "S + will not + V1",
+                tanya: "Will + S + V1?",
+                arti: "Menunjukkan tindakan yang akan terjadi di masa depan"
+            },
+            "Future Continuous": {
+                positif: "S + will be + V-ing",
+                negatif: "S + will not be + V-ing",
+                tanya: "Will + S + be + V-ing?",
+                arti: "Menunjukkan tindakan yang akan sedang berlangsung di masa depan"
+            },
+            "Future Perfect": {
+                positif: "S + will have + V3",
+                negatif: "S + will not have + V3",
+                tanya: "Will + S + have + V3?",
+                arti: "Menunjukkan tindakan yang akan selesai sebelum waktu tertentu di masa depan"
+            },
+            "Future Perfect Continuous": {
+                positif: "S + will have been + V-ing",
+                negatif: "S + will not have been + V-ing",
+                tanya: "Will + S + have been + V-ing?",
+                arti: "Menunjukkan tindakan yang akan telah berlangsung pada titik tertentu di masa depan"
+            }
+        };
+        
+        Object.keys(tenses).forEach(tense => {
+            Object.keys(tenses[tense]).forEach(type => {
+                const correctAnswer = tenses[tense][type];
+                let options = [correctAnswer];
+                
+                while (options.length < 4) {
+                    let randomTense = Object.keys(tenses)[Math.floor(Math.random() * Object.keys(tenses).length)];
+                    let randomAnswer = tenses[randomTense][type];
+                    if (!options.includes(randomAnswer)) {
+                        options.push(randomAnswer);
+                    }
+                }
+                
+                options.sort(() => Math.random() - 0.5);
+                
+                questions.push({
+                    question: `Apa rumus ${type} ${tense}?`,
+                    options: options,
+                    answer: correctAnswer
+                });
+            });
+        });
+        
+        let currentQuestionIndex = 0;
+        
+        function shuffleQuestions() {
+            questions.sort(() => Math.random() - 0.5);
+        }
+        
+        function showQuestion() {
+            const quizContainer = document.getElementById("quiz");
+            quizContainer.innerHTML = "";
+            let q = questions[currentQuestionIndex];
+            
+            let questionDiv = document.createElement("div");
+            questionDiv.innerHTML = `<p><strong>${q.question}</strong></p>`;
+            
+            q.options.forEach(option => {
+                let label = document.createElement("label");
+                label.classList.add("d-block");
+                label.innerHTML = `<input type="radio" name="quiz" value="${option}" onclick="checkAnswer('${option}')"> ${option}`;
+                questionDiv.appendChild(label);
+            });
+            
+            quizContainer.appendChild(questionDiv);
+        }
+        
+        function checkAnswer(selectedAnswer) {
+            if (selectedAnswer === questions[currentQuestionIndex].answer) {
+                currentQuestionIndex++;
+                if (currentQuestionIndex >= questions.length) {
+                    currentQuestionIndex = 0;
+                    shuffleQuestions();
+                }
+                showQuestion();
+            }
+        }
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            shuffleQuestions();
+            showQuestion();
+        });
+    </script>
+</body>
+</html>
