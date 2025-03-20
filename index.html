@@ -45,7 +45,7 @@
             
             let optionsHtml = shuffledOptions.map(option => `
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="quiz" value="${option}">
+                    <input class="form-check-input" type="radio" name="quiz" value="${option}" onclick="checkAnswer(this, '${q.answer}')">
                     <label class="form-check-label">${option}</label>
                 </div>
             `).join('');
@@ -54,14 +54,12 @@
                 <div class="mb-3">
                     <p>${q.question}</p>
                     ${optionsHtml}
-                    <button class="btn btn-primary mt-3" onclick="checkAnswer('${q.answer}')">Submit</button>
                 </div>
             `;
         }
 
-        function checkAnswer(correctAnswer) {
-            let selectedOption = document.querySelector("input[name='quiz']:checked");
-            if (selectedOption && selectedOption.value === correctAnswer) {
+        function checkAnswer(selectedOption, correctAnswer) {
+            if (selectedOption.value === correctAnswer) {
                 document.getElementById("result").textContent = "Benar!";
                 setTimeout(() => {
                     document.getElementById("result").textContent = "";
