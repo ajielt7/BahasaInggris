@@ -5,11 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kuis Tenses</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .quiz-container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+            margin-top: 50px;
+        }
+        .form-check {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .form-check:hover {
+            background: #dee2e6;
+        }
+        .text-center {
+            color: #343a40;
+        }
+    </style>
 </head>
-<body class="container mt-5">
-    <h2 class="text-center">Kuis Tenses</h2>
-    <div id="quiz" class="mt-4"></div>
-    <p id="result" class="mt-3 fw-bold"></p>
+<body>
+    <div class="quiz-container">
+        <h2 class="text-center">Kuis Tenses</h2>
+        <div id="quiz" class="mt-4"></div>
+        <p id="result" class="mt-3 fw-bold text-center"></p>
+    </div>
 
     <script>
         const questions = [
@@ -24,7 +52,11 @@
             { question: "Arti dari Simple Future?", options: ["Akan terjadi", "Sudah terjadi", "Sedang terjadi", "Kebiasaan"], answer: "Akan terjadi" },
             { question: "Arti dari Future Continuous?", options: ["Sedang berlangsung di masa depan", "Sudah terjadi", "Kebiasaan", "Akan terjadi"], answer: "Sedang berlangsung di masa depan" },
             { question: "Arti dari Future Perfect?", options: ["Sudah selesai di masa depan", "Sedang berlangsung", "Akan terjadi", "Sudah terjadi"], answer: "Sudah selesai di masa depan" },
-            { question: "Arti dari Future Perfect Continuous?", options: ["Sudah berlangsung dan masih berlanjut di masa depan", "Sudah terjadi", "Sedang terjadi", "Akan terjadi"], answer: "Sudah berlangsung dan masih berlanjut di masa depan" }
+            { question: "Arti dari Future Perfect Continuous?", options: ["Sudah berlangsung dan masih berlanjut di masa depan", "Sudah terjadi", "Sedang terjadi", "Akan terjadi"], answer: "Sudah berlangsung dan masih berlanjut di masa depan" },
+            { question: "Arti dari Past Future?", options: ["Akan terjadi di masa lalu", "Sudah terjadi", "Sedang terjadi", "Kebiasaan"], answer: "Akan terjadi di masa lalu" },
+            { question: "Arti dari Past Future Continuous?", options: ["Sedang terjadi di masa lalu dalam rencana", "Sudah terjadi", "Kebiasaan", "Akan terjadi"], answer: "Sedang terjadi di masa lalu dalam rencana" },
+            { question: "Arti dari Past Future Perfect?", options: ["Sudah selesai di masa lalu dalam rencana", "Sedang berlangsung", "Akan terjadi", "Sudah terjadi"], answer: "Sudah selesai di masa lalu dalam rencana" },
+            { question: "Arti dari Past Future Perfect Continuous?", options: ["Sudah berlangsung dan masih berlanjut di masa lalu dalam rencana", "Sudah terjadi", "Sedang terjadi", "Akan terjadi"], answer: "Sudah berlangsung dan masih berlanjut di masa lalu dalam rencana" }
         ];
 
         function shuffleArray(array) {
@@ -52,21 +84,24 @@
 
             quizContainer.innerHTML = `
                 <div class="mb-3">
-                    <p>${q.question}</p>
+                    <p class="fw-bold">${q.question}</p>
                     ${optionsHtml}
                 </div>
             `;
         }
 
         function checkAnswer(selectedOption, correctAnswer) {
+            const resultElement = document.getElementById("result");
             if (selectedOption.value === correctAnswer) {
-                document.getElementById("result").textContent = "Benar!";
+                resultElement.textContent = "✅ Benar!";
+                resultElement.style.color = "green";
                 setTimeout(() => {
-                    document.getElementById("result").textContent = "";
+                    resultElement.textContent = "";
                     loadQuestion();
                 }, 1000);
             } else {
-                document.getElementById("result").textContent = "Salah, coba lagi!";
+                resultElement.textContent = "❌ Salah, coba lagi!";
+                resultElement.style.color = "red";
             }
         }
 
